@@ -9,7 +9,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 
 public class Main {
@@ -55,7 +54,7 @@ public class Main {
                     break;
 
                 case "2":
-                    System.out.println(Bank.createTranscations());
+                    System.out.println(Bank.createTransaction());
                     break;
 
                 case "3":
@@ -69,11 +68,11 @@ public class Main {
                     break;
 
                 case "6":
-                    ClearData(new File("FinancialProject/Database/"));
+                    clearData(new File("FinancialProject/Database/"));
                     break;
                 
                 case "7":
-                    WriteData("FinancialProject/Database/Database.dat", Bank);
+                    writeData("FinancialProject/Database/Database.dat", Bank);
                     break;
                 
                 case "8":
@@ -90,7 +89,7 @@ public class Main {
         }
     }
 
-    public static Object ReadObjectFromDB (String path)
+    public static Object readObjectFromDB (String path)
     {
         try
         {
@@ -108,7 +107,7 @@ public class Main {
         }
     }
 
-    public static void WriteData (String path, BankOverview Bank)
+    public static void writeData (String path, BankOverview Bank)
     {
         try
         {
@@ -123,7 +122,7 @@ public class Main {
         }
     }
 
-    public static void ClearData (File dir)
+    public static void clearData (File dir)
     {
         for(File file: dir.listFiles()) 
             if (!file.isDirectory()) 

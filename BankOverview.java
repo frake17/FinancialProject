@@ -57,14 +57,14 @@ public class BankOverview implements Serializable{
 
         for (int i = 0; i < TempList.size(); i++)  
         {
-            TempString = TempString + "Tranaction named " + TempList.get(i).getName() + " under " + TempList.get(i).getCategory() + " costed " + TempList.get(i).getCost();
+            TempString = TempString + "Transaction named " + TempList.get(i).getName() + " under " + TempList.get(i).getCategory() + " costed " + TempList.get(i).getCost();
         }
 
         return TempString;
 
     }
 
-    public String createTranscations()
+    public String createTransaction()
     {
         String Month;
         String Data = "";
