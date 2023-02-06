@@ -20,6 +20,8 @@ public class Main {
         String Choice;
         BigDecimal Balance;
         BankOverview Bank;
+        ArrayList<BankOverview> BankList = new ArrayList<BankOverview>();
+        String DefaultBank;
 
         Path currentDir = new File("FinancialProject/Database").toPath().toAbsolutePath();
         if (isEmpty(currentDir))
@@ -37,15 +39,19 @@ public class Main {
         }
         else
         {
-            /* Add in a way to read multiple files and store multiple objects */
-            Bank = (BankOverview) ReadObjectFromDB("FinancialProject/Database/Database.dat");
+            /* find a way to make it use default bank or just first bank? */
+            for (File file : currentDir)
+            {
+                Bank = (BankOverview) ReadObjectFromDB("FinancialProject/Database/Database.dat");
+                BankList.add(Bank);
+            }
         }
         
         /* Do a method to switch bank account + add new bank account + clear all + delete*/
         while (true)
         {
             Reader = new Scanner(System.in);
-            System.out.println("Please press the following" + System.lineSeparator() + "1.View current account details" + System.lineSeparator() + "2.Add transaction" + System.lineSeparator() + "3.View transaction" + System.lineSeparator() + "4.Add a new bank account" + System.lineSeparator() + "6.Clear all data" + System.lineSeparator() + "7.Save changes" + System.lineSeparator() +"8.Exit program");
+            System.out.println("Please press the following" + System.lineSeparator() + "1.View current account details" + System.lineSeparator() + "2.Add transaction" + System.lineSeparator() + "3.View transaction" + System.lineSeparator() + "4.Add a new bank account" + System.lineSeparator() + "6.Clear all data" + System.lineSeparator() + "7.Save changes" + System.lineSeparator() + "8. Set degault Bank" + System.lineSeparator() +"9.Exit program");
             Choice = Reader.nextLine();
             switch(Choice)
             {
@@ -120,6 +126,12 @@ public class Main {
         {
             ex.printStackTrace();
         }
+
+        if (BankList.isEmpty)
+        {
+            DefaultBank = Bank.getUID(); 
+        }
+        BankList.add(Bank);
     }
 
     public static void clearData (File dir)
