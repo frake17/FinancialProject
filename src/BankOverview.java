@@ -1,4 +1,4 @@
-package FinancialProject;
+
 
 import java.time.format.TextStyle;
 import java.util.Locale;
@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.util.List;
@@ -15,14 +16,16 @@ public class BankOverview implements Serializable{
     private BigDecimal Balance;
     private String BankName;
     private HashMap<String, List<Transaction>> ListOfTransaction = new HashMap<String, List<Transaction>>();
+    private List<Integer> ListOfTransactionID = new ArrayList<Integer>();
     Scanner Reader;
     private Boolean Default;
     private String UID;
 
-    public BankOverview(BigDecimal Balance, String BankName)
+    public BankOverview(BigDecimal Balance, String BankName, String UID)
     {
         this.Balance = Balance;
         this.BankName = BankName;
+        this.UID = UID;
 
     }
 
@@ -31,14 +34,9 @@ public class BankOverview implements Serializable{
         this.Balance = Balance;
     }
 
-    public String viewDetails()
+    public void viewDetails()
     {
-        return String.format("Current balance: %s, bank: %s", Balance, BankName);
-    }
-
-    public void setUID(String UID)
-    {
-        this.UID = UID;
+        System.out.println(BankName + Balance + Default);
     }
 
     public String getUID()
@@ -46,53 +44,53 @@ public class BankOverview implements Serializable{
         return UID;
     }
 
-    public String viewTransaction()
+    public String getName()
     {
+        return BankName;
+    }
+
+    public void ViewAllTransaction()
+    {
+        for (int UID : ListOfTransactionID)
+        {
+            MysqlStatement.SQLView("Select * FROM transaction WHERE UID = " + UID);
+        }
+    }
+
+    public void viewTransaction() // Monthly transaction
+    {
+        // Error when viewing without updating
+        //String formatting error when printing
         String Month;
         String Year;
-        String Key;
-        List<Transaction> TempList;
-        String TempString = "";
 
         Reader = new Scanner(System.in);
         System.out.println("What year of transaction do you like to view(yyyy)?");
         Year = Reader.nextLine();
 
         Reader = new Scanner(System.in);
-        System.out.println("What month of transaction do you like to view(month name)");
+        System.out.println("What month of transaction do you like to view(month number)");
         Month = Reader.nextLine();
 
-        Key = Month.toUpperCase() + " " + Year;
-        TempList = ListOfTransaction.get(Key);
-        System.out.println(ListOfTransaction);
-        System.out.println(Key);
-
-        for (int i = 0; i < TempList.size(); i++)  
+        List<String> Details = MysqlStatement.SQLView(String.format("Select * FROM transaction WHERE UID = \"%s\" AND month(Date) = \"%s\" AND YEAR(Date) = \"%s\" ", UID, Month, Year));
+        List<String> ColumnName = Arrays.asList("UID", "Date", "Cost", "Name");
+        for (int i = 1; i<Details.size(); i++)
         {
-            TempString = TempString + "Transaction named " + TempList.get(i).getName() + " under " + TempList.get(i).getCategory() + " costed " + TempList.get(i).getCost();
+            System.out.println(ColumnName.get(i) + " " + Details.get(i));
         }
-
-        return TempString;
-
     }
 
-    public String createTransaction()
+    public String createTransaction(String Name) // Create query string and return 
     {
         String Month;
-        String Data = "";
         String Year;
         String Key;
         LocalDate Transactiondate;
         BigDecimal Cost;
         String Category;
-        String Name;
         Transaction NewTransaction;
         List<Transaction> TempList;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-        Reader = new Scanner(System.in);
-        System.out.println("What is the name of transaction?");
-        Name = Reader.nextLine();
 
         Reader = new Scanner(System.in);
         System.out.println("What is the date of transaction(dd/mm/yyyy)?");
@@ -125,9 +123,11 @@ public class BankOverview implements Serializable{
         ListOfTransaction.put(Key.toUpperCase(), TempList);
         setBalance(Balance.subtract(Cost));
 
+        // Insert SQL
+        //MysqlStatement.SQLInsert("INSERT INTO Transaction (Category, Date, Cost, Name) VALUES (Category, Key, Cost, Name);");
 
+        ListOfTransactionID.add(NewTransaction.getUID());
 
-
-        return "Transaction is logged.";
+        return String.format("INSERT INTO Transaction (Category, Date, Cost, Name, UID) VALUES (\"%s\", \"%s\", %.2f, \"%s\", \"%s\");", Category, Transactiondate, Cost, Name, UID);
     }
 }

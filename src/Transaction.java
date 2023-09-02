@@ -1,4 +1,4 @@
-package FinancialProject;
+
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -8,6 +8,7 @@ public class Transaction {
     private LocalDate Date;
     private BigDecimal Cost;
     private String Name;
+    private int UID;
 
     public Transaction(String Category, LocalDate Date, BigDecimal Cost, String Name)
     {
@@ -20,6 +21,11 @@ public class Transaction {
     public String getCategory()
     {
         return Category;
+    }
+
+    public int getUID()
+    {
+        return UID;
     }
 
     public LocalDate getDate()
