@@ -18,7 +18,6 @@ public class BankOverview implements Serializable{
     private HashMap<String, List<Transaction>> ListOfTransaction = new HashMap<String, List<Transaction>>();
     private List<Integer> ListOfTransactionID = new ArrayList<Integer>();
     Scanner Reader;
-    private Boolean Default;
     private String UID;
 
     public BankOverview(BigDecimal Balance, String BankName, String UID)
@@ -36,7 +35,7 @@ public class BankOverview implements Serializable{
 
     public void viewDetails()
     {
-        System.out.println(BankName + Balance + Default);
+        System.out.println("Bank Name: " + BankName + "Bank Balance: " + Balance);
     }
 
     public String getUID()

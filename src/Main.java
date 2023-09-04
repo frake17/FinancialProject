@@ -1,10 +1,10 @@
 
 import java.util.Random;
 import java.math.BigDecimal;
+import java.rmi.server.UID;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.io.File;
 import java.io.IOException;
 
 // SQL \ root \ 100carbook
@@ -21,6 +21,7 @@ public class Main {
         BankOverview Bank;
         List<String> ListOfChanges = new ArrayList<String>(); // Print string of the changes
         List<String> ListOfChangesQuery = new ArrayList<String>(); // For query for changes
+        List<String> Bankdetails = new ArrayList<String>();
 
         // For creating random alphanumeric string
         Random random = new Random();
@@ -30,7 +31,11 @@ public class Main {
         String generatedString;
        
         // Condition to either select first bank unless its empty in which one will be created
+        Bankdetails = MysqlStatement.SQLView("Select Balance, BankName, UID From bankoverview where DefaultBank = \"True\" ");
         Reader = new Scanner(System.in);
+
+        if (Bankdetails.isEmpty()) // condition to prevent empty inputs + auto default bank
+        {
         System.out.println("What is your bank name?");
         BankName = Reader.nextLine();
 
@@ -43,8 +48,16 @@ public class Main {
 
         generatedString = random.ints(leftLimit, rightLimit + 1).filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97)).limit(targetStringLength).collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
         ListOfChangesQuery.add(String.format("Insert into bankoverview(Balance, BankName, UID) values (%.2f, + \"%s\", \"%s\")", Balance, BankName, generatedString));
+        ListOfChangesQuery.add(String.format("Update bankoverview set DefaultBank = \"True\" Where UID = \"%s\" ", generatedString));
 
         System.out.println("Bank account has been added.");
+        }
+        else
+        {
+            BigDecimal balance = new BigDecimal (Bankdetails.get(0));
+            BankName = Bankdetails.get(1);
+            Bank = new BankOverview(balance, BankName, Bankdetails.get(2));
+        }
         
         
         /* Do a method to switch bank account + add new bank account + clear all + delete*/
@@ -76,6 +89,7 @@ public class Main {
                     break;
 
                 case "6":
+                    clearData(ListOfChangesQuery, ListOfChangesQuery);
                     break;
                 
                 case "7":
@@ -122,9 +136,13 @@ public class Main {
     
     }
 
-    public static void clearData (File dir) // Dealete ALL data in MYSQL
+    public static void clearData (List<String> ListOfChangesQuery, List<String> ListOfChanges) // Dealete ALL data in MYSQL
     {
-        
+        ListOfChanges.add("Clearing bank records.");
+        ListOfChangesQuery.add("Delete from bankoverview");
+
+        ListOfChanges.add("Clearing transaction records");
+        ListOfChangesQuery.add("Delete from transaction");
     }
 
     public static void UpdateSQL(List<String> ListOfChangesQuery) // find a way to revert specific changes + ask if they want to confirm changes
