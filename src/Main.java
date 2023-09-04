@@ -60,7 +60,7 @@ public class Main {
         }
         
         
-        /* Do a method to switch bank account + add new bank account + clear all + delete*/
+        /*Do a delete but for specific bank or transaction*/
         while (true)
         {
             System.out.println("Please choose the following" + System.lineSeparator() + "1.View current account details" + System.lineSeparator() + "2.Add transaction" + System.lineSeparator() + "3.View transaction" + System.lineSeparator() +"4.View ALL transaction" + System.lineSeparator() + "5.Add a new bank account" + System.lineSeparator() + "6.Clear all data" + System.lineSeparator() + "7.Change Bank" + System.lineSeparator() + "8.Update all changes" + System.lineSeparator() +"9.Exit program");
@@ -86,6 +86,8 @@ public class Main {
                     break;
                 
                 case "5":
+                    generatedString = random.ints(leftLimit, rightLimit + 1).filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97)).limit(targetStringLength).collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
+                    AddBank(ListOfChangesQuery, ListOfChangesQuery, generatedString);
                     break;
 
                 case "6":
@@ -114,7 +116,7 @@ public class Main {
     }
 
 
-    public static void AddBank () // Add bank without changing the default
+    public static void AddBank (List<String> ListOfChangesQuery, List<String> ListOfChanges, String UID) // Add bank without changing the default
     {
         Scanner Reader;
         String BankName;
@@ -123,17 +125,12 @@ public class Main {
         Reader = new Scanner(System.in);
         System.out.println("What is your bank provider?");
         BankName = Reader.nextLine();
-        Reader.close();
 
-        Reader = new Scanner(System.in);
         System.out.println("What is your current balance?");
         Balance = new BigDecimal(Reader.nextLine());
-        Reader.close();
 
-        
-        MysqlStatement.SQLInsert(String.format("insert into bankoverview (Balance, BankName, ListOfTransaction, Default) Values( %d, \"%s\", null, null)", Balance, BankName));
-        
-    
+        ListOfChanges.add("Inserting bank record.");
+        ListOfChangesQuery.add(String.format("insert into bankoverview (Balance, BankName, ListOfTransaction, DefaultBank, UID) Values( %.2f, \"%s\", null, null, \"%s\" )", Balance, BankName,UID));
     }
 
     public static void clearData (List<String> ListOfChangesQuery, List<String> ListOfChanges) // Dealete ALL data in MYSQL
