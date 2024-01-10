@@ -1,5 +1,7 @@
 Financial program details change
 
+do javafx GUI
+
 Notes
 Try to involve class usagae more than SQL statemtns directly, only use it for overall changes
 Need to use \" \" to include quote marks in SQL query statement
@@ -17,9 +19,11 @@ Changes to bank account will be reflected on bank class (Done)
 
 Update sql method (Done)
 
-only after confirm changes will it update SQL
+only after confirm changes will it update SQL (Done)
 
 way to reverse SQL changes before confirm
+
+way to edit updates again before confriming changes
 
 comment methods 
 

@@ -100,7 +100,9 @@ public class Main {
                     Bank = ChangeDefault(NewBankName, Bank.getName(), ListOfChangesQuery, ListOfChanges);
                     break;
                 case "8":
-                    UpdateSQL(ListOfChangesQuery);
+                    System.out.println("Press 'Y' to confrim update.");
+                    String confirm = Reader.nextLine();
+                    UpdateSQL(ListOfChangesQuery, confirm);
                     break;
                 case "9":
                     break;
@@ -142,15 +144,22 @@ public class Main {
         ListOfChangesQuery.add("Delete from transaction");
     }
 
-    public static void UpdateSQL(List<String> ListOfChangesQuery) // find a way to revert specific changes + ask if they want to confirm changes
+    public static void UpdateSQL(List<String> ListOfChangesQuery, String confirm) // find a way to revert specific changes + ask if they want to confirm changes
     {
         // find where the statement is printing the sql statment when udpating
-        for (String i : ListOfChangesQuery)
+        if(confirm.toLowerCase() == "y")
         {
-            MysqlStatement.SQLInsert(i);
-        }
+            for (String i : ListOfChangesQuery)
+            {
+                MysqlStatement.SQLInsert(i);
+            }
 
-        System.out.println("All updated");
+            System.out.println("All updated");
+        }
+        else
+        {
+            System.out.println("Updated not appliled.");
+        }
     }
 
     public static BankOverview ChangeDefault(String bankName, String oldbankName, List<String> ListOfChangesQuery, List<String> ListOfChanges) // return bank overview
