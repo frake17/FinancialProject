@@ -21,9 +21,17 @@ Update sql method (Done)
 
 only after confirm changes will it update SQL (Done)
 
-way to reverse SQL changes before confirm
+way to reverse SQL changes before confirm ( to test )
 
-way to edit updates again before confriming changes
+Make function for income
+
+Add method in transaction to select randomized unique code + T for transaction at the front or I
+
+Change SQL UID to string
+
+Add method in bank class to update balance after confirm update
+
+Add income method in bank
 
 comment methods 
 

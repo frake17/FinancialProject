@@ -7,7 +7,6 @@ public class MysqlStatement {
     }
     public static void SQLInsert(String query){ //test if can be used for update as well and delete
         try {
-            System.out.println(query);
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/financialproject", "root", "100carbook");
             Statement stmt = con.createStatement();

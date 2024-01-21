@@ -63,7 +63,7 @@ public class Main {
         /*Do a delete but for specific bank or transaction*/
         while (true)
         {
-            System.out.println("Please choose the following" + System.lineSeparator() + "1.View current account details" + System.lineSeparator() + "2.Add transaction" + System.lineSeparator() + "3.View transaction" + System.lineSeparator() +"4.View ALL transaction" + System.lineSeparator() + "5.Add a new bank account" + System.lineSeparator() + "6.Clear all data" + System.lineSeparator() + "7.Change Bank" + System.lineSeparator() + "8.Update all changes" + System.lineSeparator() +"9.Exit program");
+            System.out.println("Please choose the following" + System.lineSeparator() + "1.View current account details" + System.lineSeparator() + "2.Add transaction" + System.lineSeparator() + "3.View transaction" + System.lineSeparator() +"4.View ALL transaction" + System.lineSeparator() + "5.Add a new bank account" + System.lineSeparator() + "6.Clear all data" + System.lineSeparator() + "7.Change Bank" + System.lineSeparator() + "8.Update all changes" + System.lineSeparator() + "9.View/Delete pending changes" + System.lineSeparator() +"10.Exit program");
             Choice = Reader.nextLine();
             switch(Choice)
             {
@@ -106,6 +106,8 @@ public class Main {
                     break;
                 case "9":
                     break;
+                case "10":
+                    break;
                 default:
                     System.out.println("Invalid choice");
             }
@@ -131,6 +133,8 @@ public class Main {
         System.out.println("What is your current balance?");
         Balance = new BigDecimal(Reader.nextLine());
 
+        Reader.close();
+
         ListOfChanges.add("Inserting bank record.");
         ListOfChangesQuery.add(String.format("insert into bankoverview (Balance, BankName, ListOfTransaction, DefaultBank, UID) Values( %.2f, \"%s\", null, null, \"%s\" )", Balance, BankName,UID));
     }
@@ -144,7 +148,7 @@ public class Main {
         ListOfChangesQuery.add("Delete from transaction");
     }
 
-    public static void UpdateSQL(List<String> ListOfChangesQuery, String confirm) // find a way to revert specific changes + ask if they want to confirm changes
+    public static void UpdateSQL(List<String> ListOfChangesQuery, String confirm) // find a way to revert specific changes
     {
         // find where the statement is printing the sql statment when udpating
         if(confirm.toLowerCase() == "y")
@@ -180,6 +184,42 @@ public class Main {
         
         return bank;
 
+    }
+
+    public static void ViewPendingUpdate(List<String> ListOfChanges, List<String> ListOfChangesQuery)
+    {   
+        int QueryNumber;
+        Scanner Reader = new Scanner(System.in);
+        int counter = 0;
+        for (String string : ListOfChanges) {
+            System.out.println(counter + " " +string);
+            counter += 1;
+        }
+        System.out.println("Enter yes to delete any updates");
+        if (Reader.nextLine().toLowerCase() == "yes")
+        {
+            // do invalidation
+            System.out.println("Enter the query number that you wish to edit");
+            QueryNumber = Integer.parseInt(Reader.nextLine());
+            DeleteUpdate(ListOfChanges, ListOfChangesQuery, QueryNumber);
+        }
+        Reader.close();
+    }
+
+    public static void DeleteUpdate(List<String> ListOfChanges, List<String> ListOfChangesQuery, int QueryNumber)
+    {
+        ListOfChanges.remove(QueryNumber);
+        ListOfChangesQuery.remove(QueryNumber);
+
+        System.out.println("Enter stop once done deleted the needed update");
+        Scanner Reader = new Scanner(System.in);
+        // do invalidation
+        if (Reader.nextLine().toLowerCase() != "stop"){
+            System.out.println("Enter the query number that you wish to edit");
+            QueryNumber = Integer.parseInt(Reader.nextLine());
+            DeleteUpdate(ListOfChanges, ListOfChangesQuery, QueryNumber);
+        }
+        Reader.close();
     }
 
 }

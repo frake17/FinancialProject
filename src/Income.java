@@ -1,23 +1,21 @@
-
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
-public class Transaction {
+public class Income {
     private String Category;
     private LocalDate Date;
     private BigDecimal Cost;
     private String Name;
     private String UID;
 
-    public Transaction(String Category, LocalDate Date, BigDecimal Cost, String Name)
+    public Income(String Category, LocalDate Date, BigDecimal Cost, String Name)
     {
         this.Category = Category;
         this.Date = Date;
         this.Cost = Cost;
         this.Name = Name;
-        this.UID = "T" + UUID.randomUUID().toString().replace("-", "");
+        this.UID = "I" + UUID.randomUUID().toString().replace("-", "");
     }
 
     public String getCategory()

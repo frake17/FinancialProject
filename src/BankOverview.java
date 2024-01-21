@@ -16,7 +16,7 @@ public class BankOverview implements Serializable{
     private BigDecimal Balance;
     private String BankName;
     private HashMap<String, List<Transaction>> ListOfTransaction = new HashMap<String, List<Transaction>>();
-    private List<Integer> ListOfTransactionID = new ArrayList<Integer>();
+    private List<String> ListOfTransactionID = new ArrayList<String>();
     Scanner Reader;
     private String UID;
 
@@ -50,7 +50,7 @@ public class BankOverview implements Serializable{
 
     public void ViewAllTransaction()
     {
-        for (int UID : ListOfTransactionID)
+        for (String UID : ListOfTransactionID)
         {
             MysqlStatement.SQLView("Select * FROM transaction WHERE UID = " + UID);
         }
