@@ -23,7 +23,9 @@ only after confirm changes will it update SQL (Done)
 
 way to reverse SQL changes before confirm ( to test )
 
-Make function for income
+Make function for income (done)
+
+Add view income
 
 Add method in transaction to select randomized unique code + T for transaction at the front or I
 

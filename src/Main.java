@@ -45,7 +45,7 @@ public class Main {
         Bank = new BankOverview(Balance, BankName, random.toString());
         ListOfChanges.add(BankName + " will be added");
     
-
+        /* See if can change to UID generator used in transaction */
         generatedString = random.ints(leftLimit, rightLimit + 1).filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97)).limit(targetStringLength).collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
         ListOfChangesQuery.add(String.format("Insert into bankoverview(Balance, BankName, UID) values (%.2f, + \"%s\", \"%s\")", Balance, BankName, generatedString));
         ListOfChangesQuery.add(String.format("Update bankoverview set DefaultBank = \"True\" Where UID = \"%s\" ", generatedString));
@@ -63,7 +63,7 @@ public class Main {
         /*Do a delete but for specific bank or transaction*/
         while (true)
         {
-            System.out.println("Please choose the following" + System.lineSeparator() + "1.View current account details" + System.lineSeparator() + "2.Add transaction" + System.lineSeparator() + "3.View transaction" + System.lineSeparator() +"4.View ALL transaction" + System.lineSeparator() + "5.Add a new bank account" + System.lineSeparator() + "6.Clear all data" + System.lineSeparator() + "7.Change Bank" + System.lineSeparator() + "8.Update all changes" + System.lineSeparator() + "9.View/Delete pending changes" + System.lineSeparator() +"10.Exit program");
+            System.out.println("Please choose the following" + System.lineSeparator() + "1.View current account details" + System.lineSeparator() + "2.Add transaction" + System.lineSeparator() + "3.View transaction" + System.lineSeparator() +"4.View ALL transaction" + System.lineSeparator() + "5.Add a new bank account" + System.lineSeparator() + "6.Clear all data" + System.lineSeparator() + "7.Change Bank" + System.lineSeparator() + "8.Update all changes" + System.lineSeparator() + "9.View/Delete pending changes" + System.lineSeparator() + "10.Add income" + System.lineSeparator() +"11.Exit program");
             Choice = Reader.nextLine();
             switch(Choice)
             {
@@ -107,6 +107,12 @@ public class Main {
                 case "9":
                     break;
                 case "10":
+                    System.out.println("What is the name of Income?");
+                    Name = Reader.nextLine();
+                    ListOfChanges.add(String.format("Income named \"%s\" for Bank \"%s\"", Name, BankName));
+                    ListOfChangesQuery.add(Bank.createIncome(Name));
+                    break;
+                case "11":
                     break;
                 default:
                     System.out.println("Invalid choice");
@@ -118,7 +124,6 @@ public class Main {
             }
         }
     }
-
 
     public static void AddBank (List<String> ListOfChangesQuery, List<String> ListOfChanges, String UID) // Add bank without changing the default
     {

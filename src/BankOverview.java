@@ -15,6 +15,8 @@ import java.io.Serializable;
 public class BankOverview implements Serializable{
     private BigDecimal Balance;
     private String BankName;
+    private HashMap<String, List<Income>> ListOfIncome = new HashMap<String, List<Income>>();
+    private List<String> ListOfIncomeID = new ArrayList<String>();
     private HashMap<String, List<Transaction>> ListOfTransaction = new HashMap<String, List<Transaction>>();
     private List<String> ListOfTransactionID = new ArrayList<String>();
     Scanner Reader;
@@ -25,6 +27,7 @@ public class BankOverview implements Serializable{
         this.Balance = Balance;
         this.BankName = BankName;
         this.UID = UID;
+        /* intilize list of income and list of transaction */
 
     }
 
@@ -109,6 +112,7 @@ public class BankOverview implements Serializable{
         Year = Integer.toString(Transactiondate.getYear());
         Key = Month + " " + Year;
 
+        /* To see if theres list for the same month and year */
         if (ListOfTransaction.containsKey(Key))
         {
             TempList = ListOfTransaction.get(Key);
@@ -128,5 +132,56 @@ public class BankOverview implements Serializable{
         ListOfTransactionID.add(NewTransaction.getUID());
 
         return String.format("INSERT INTO Transaction (Category, Date, Cost, Name, UID) VALUES (\"%s\", \"%s\", %.2f, \"%s\", \"%s\");", Category, Transactiondate, Cost, Name, UID);
+    }
+
+    public String createIncome(String name){
+        String Month;
+        String Year;
+        String Key;
+        LocalDate Incomedate;
+        BigDecimal Cost;
+        String Category;
+        Income NewIncome;
+        List<Income> TempList;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        Reader = new Scanner(System.in);
+        System.out.println("What is the date of Income(dd/mm/yyyy)?");
+        Incomedate = LocalDate.parse(Reader.nextLine(), formatter);
+
+        Reader = new Scanner(System.in);
+        System.out.println("What is the cost of the Income?");
+        Cost = new BigDecimal(Reader.nextLine());
+
+        Reader = new Scanner(System.in);
+        System.out.println("What is the category of the Income(food, work, studies, entertainment, etc)?");
+        Category = Reader.nextLine();
+
+        NewIncome = new Income(Category, Incomedate, Cost, name);
+
+        Month = Incomedate.getMonth().getDisplayName(TextStyle.SHORT,Locale.ENGLISH);
+        Year = Integer.toString(Incomedate.getYear());
+        Key = Month + " " + Year;
+
+         /* To see if theres list for the same month and year */
+         if (ListOfIncome.containsKey(Key))
+         {
+             TempList = ListOfIncome.get(Key);
+             TempList.add(NewIncome);
+         }
+         else
+         {
+             TempList = new ArrayList<Income>();
+             TempList.add(NewIncome);
+         }
+         ListOfIncome.put(Key.toUpperCase(), TempList);
+         setBalance(Balance.subtract(Cost));
+ 
+         // Insert SQL
+         //MysqlStatement.SQLInsert("INSERT INTO Transaction (Category, Date, Cost, Name) VALUES (Category, Key, Cost, Name);");
+ 
+         ListOfIncomeID.add(NewIncome.getUID());
+
+         return String.format("INSERT INTO Transaction (Category, Date, Cost, Name, UID) VALUES (\"%s\", \"%s\", %.2f, \"%s\", \"%s\");", Category, Incomedate, Cost, name, UID);
     }
 }
