@@ -21,9 +21,13 @@ Update sql method (Done)
 
 only after confirm changes will it update SQL (Done)
 
-way to reverse SQL changes before confirm ( to test )
+way to reverse SQL changes before confirm aka delete changes ( to test )
 
-Make function for income (done)
+Make function for create income (to test )
+
+Initlizate list of transaction/income ID at the start ( to test )
+
+Update list of transaction/income ID in bankoverview database
 
 Add view income
 

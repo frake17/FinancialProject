@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
+
+import com.mysql.cj.x.protobuf.MysqlxCrud.Update;
+
 import java.util.List;
 import java.io.Serializable;
 
@@ -28,6 +31,8 @@ public class BankOverview implements Serializable{
         this.BankName = BankName;
         this.UID = UID;
         /* intilize list of income and list of transaction */
+        ListOfIncomeID = MysqlStatement.SQLView("Select (ListOfIncome) FROM Bankoverview WHERE UID = " + UID);
+        ListOfTransactionID = MysqlStatement.SQLView("Select (ListofTransaction) FROM Bankoverview WHERE UID = " + UID);
 
     }
 
@@ -56,6 +61,14 @@ public class BankOverview implements Serializable{
         for (String UID : ListOfTransactionID)
         {
             MysqlStatement.SQLView("Select * FROM transaction WHERE UID = " + UID);
+        }
+    }
+
+    public void ViewAllIncome()
+    {
+        for (String UID : ListOfIncomeID)
+        {
+            MysqlStatement.SQLView("Select * FROM income WHERE UID = " + UID);
         }
     }
 
@@ -130,8 +143,9 @@ public class BankOverview implements Serializable{
         //MysqlStatement.SQLInsert("INSERT INTO Transaction (Category, Date, Cost, Name) VALUES (Category, Key, Cost, Name);");
 
         ListOfTransactionID.add(NewTransaction.getUID());
+        UpdateID(ListOfTransactionID, "T");
 
-        return String.format("INSERT INTO Transaction (Category, Date, Cost, Name, UID) VALUES (\"%s\", \"%s\", %.2f, \"%s\", \"%s\");", Category, Transactiondate, Cost, Name, UID);
+        return String.format("INSERT INTO Transaction (Category, Date, Cost, Name, UID, BankName) VALUES (\"%s\", \"%s\", %.2f, \"%s\", \"%s\", \"%s\");", Category, Transactiondate, Cost, Name, UID, BankName);
     }
 
     public String createIncome(String name){
@@ -181,7 +195,19 @@ public class BankOverview implements Serializable{
          //MysqlStatement.SQLInsert("INSERT INTO Transaction (Category, Date, Cost, Name) VALUES (Category, Key, Cost, Name);");
  
          ListOfIncomeID.add(NewIncome.getUID());
+         UpdateID(ListOfIncomeID, "I");
 
-         return String.format("INSERT INTO Transaction (Category, Date, Cost, Name, UID) VALUES (\"%s\", \"%s\", %.2f, \"%s\", \"%s\");", Category, Incomedate, Cost, name, UID);
+         return String.format("INSERT INTO Income (Category, Date, Cost, Name, UID, BankName) VALUES (\"%s\", \"%s\", %.2f, \"%s\", \"%s\", \"%s\");", Category, Incomedate, Cost, name, UID, BankName);
     }
+
+    public void UpdateID(List<String> ListOfID, String category)
+    {
+       if (category == "T")
+       {
+        MysqlStatement.SQLInsert(String.format("Update bankoverview set ListOfTransaction = \"%s\" Where bankname = \"%s\" ", ListOfID, category));
+       }
+       else {
+        MysqlStatement.SQLInsert(String.format("Update bankoverview set ListOfIncome = \"%s\" Where bankname = \"%s\" ", ListOfID, category));
+       }
+       }
 }
