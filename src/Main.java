@@ -63,7 +63,7 @@ public class Main {
         /*Do a delete but for specific bank or transaction*/
         while (true)
         {
-            System.out.println("Please choose the following" + System.lineSeparator() + "1.View current account details" + System.lineSeparator() + "2.Add transaction" + System.lineSeparator() + "3.View transaction" + System.lineSeparator() +"4.View ALL transaction" + System.lineSeparator() + "5.Add a new bank account" + System.lineSeparator() + "6.Clear all data" + System.lineSeparator() + "7.Change Bank" + System.lineSeparator() + "8.Update all changes" + System.lineSeparator() + "9.View/Delete pending changes" + System.lineSeparator() + "10.Add income" + System.lineSeparator() +"11.Exit program");
+            System.out.println("Please choose the following" + System.lineSeparator() + "1.View current account details" + System.lineSeparator() + "2.Add transaction" + System.lineSeparator() + "3.View transaction" + System.lineSeparator() +"4.View ALL transaction" + System.lineSeparator() + "5.Add a new bank account" + System.lineSeparator() + "6.Clear all data" + System.lineSeparator() + "7.Change Bank" + System.lineSeparator() + "8.Update all changes" + System.lineSeparator() + "9.View/Delete pending changes" + System.lineSeparator() + "10.Add income" + System.lineSeparator() + "11.View Income" + System.lineSeparator() + "12.VIew All Income" + System.lineSeparator() +"13.Exit program");
             Choice = Reader.nextLine();
             switch(Choice)
             {
@@ -83,6 +83,7 @@ public class Main {
                     break;
 
                 case "4":
+                    Bank.ViewAllTransaction();
                     break;
                 
                 case "5":
@@ -113,6 +114,12 @@ public class Main {
                     ListOfChangesQuery.add(Bank.createIncome(Name));
                     break;
                 case "11":
+                    Bank.ViewAllIncome();
+                    break;
+                case "12":
+                    Bank.viewIncome();
+                    break;
+                case "13":
                     break;
                 default:
                     System.out.println("Invalid choice");

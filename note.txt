@@ -27,13 +27,13 @@ Make function for create income (to test )
 
 Initlizate list of transaction/income ID at the start ( to test )
 
-Update list of transaction/income ID in bankoverview database
+Update list of transaction/income ID in bankoverview database (to test)
 
-Add view income
+Add view income (to test)
 
-Add method in transaction to select randomized unique code + T for transaction at the front or I
+Add method in transaction to select randomized unique code + T for transaction at the front or I (to test)
 
-Change SQL UID to string
+Change SQL UID to string (to test)
 
 Add method in bank class to update balance after confirm update
 

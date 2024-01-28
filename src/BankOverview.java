@@ -95,6 +95,27 @@ public class BankOverview implements Serializable{
         }
     }
 
+    public void viewIncome()
+    {
+        String Month;
+        String Year;
+
+        Reader = new Scanner(System.in);
+        System.out.println("What year of transaction do you like to view(yyyy)?");
+        Year = Reader.nextLine();
+
+        Reader = new Scanner(System.in);
+        System.out.println("What month of transaction do you like to view(month number)");
+        Month = Reader.nextLine();
+
+        List<String> Details = MysqlStatement.SQLView(String.format("Select * FROM icome WHERE UID = \"%s\" AND month(Date) = \"%s\" AND YEAR(Date) = \"%s\" ", UID, Month, Year));
+        List<String> ColumnName = Arrays.asList("UID", "Date", "Cost", "Name");
+        for (int i = 1; i<Details.size(); i++)
+        {
+            System.out.println(ColumnName.get(i) + " " + Details.get(i));
+        }
+    }
+
     public String createTransaction(String Name) // Create query string and return 
     {
         String Month;
