@@ -74,8 +74,10 @@ public class Main {
                 case "2":
                     System.out.println("What is the name of transaction?");
                     String Name = Reader.nextLine();
-                    ListOfChanges.add(String.format("Transaction named \"%s\" for Bank \"%s\"", Name, BankName));
-                    ListOfChangesQuery.add(Bank.createTransaction(Name));
+                    Transaction newTransaction = Bank.createTransaction(Name);
+                    ListOfChanges.add(String.format("Transaction named \"%s\" for Bank \"%s\" costed = \"%2d\" ", Name, BankName, newTransaction.getCost()));
+                    ListOfChangesQuery.add(String.format("INSERT INTO Transaction (Category, Date, Cost, Name, UID, BankName) VALUES (\"%s\", \"%s\", %.2f, \"%s\", \"%s\", \"%s\");", newTransaction.getCategory(), newTransaction.getDate(), newTransaction.getCategory(), Name, newTransaction.getUID(), BankName));
+                    //ListOfChangesQuery.add(Bank.createTransaction(Name));
                     break;
 
                 case "3":
@@ -103,15 +105,17 @@ public class Main {
                 case "8":
                     System.out.println("Press 'Y' to confrim update.");
                     String confirm = Reader.nextLine();
-                    UpdateSQL(ListOfChangesQuery, confirm);
+                    UpdateSQL(ListOfChanges, ListOfChangesQuery, confirm, BankName);
                     break;
                 case "9":
                     break;
                 case "10":
                     System.out.println("What is the name of Income?");
                     Name = Reader.nextLine();
-                    ListOfChanges.add(String.format("Income named \"%s\" for Bank \"%s\"", Name, BankName));
-                    ListOfChangesQuery.add(Bank.createIncome(Name));
+                    Income newIncome = Bank.createIncome(Name);
+                    ListOfChanges.add(String.format("Income named \"%s\" for Bank \"%s\" for = \"%2d\" ", Name, BankName, newIncome.getCost()));
+                    ListOfChangesQuery.add(String.format("INSERT INTO Income (Category, Date, Cost, Name, UID, BankName) VALUES (\"%s\", \"%s\", %.2f, \"%s\", \"%s\", \"%s\");", newIncome.getCategory(), newIncome.getDate(), newIncome.getCost(), Name, newIncome.getUID(), BankName));
+                    //ListOfChangesQuery.add(Bank.createIncome(Name));
                     break;
                 case "11":
                     Bank.ViewAllIncome();
@@ -160,15 +164,29 @@ public class Main {
         ListOfChangesQuery.add("Delete from transaction");
     }
 
-    public static void UpdateSQL(List<String> ListOfChangesQuery, String confirm) // find a way to revert specific changes
+    public static void UpdateSQL(List<String> ListOfChanges, List<String> ListOfChangesQuery, String confirm, String BankName) // find a way to revert specific changes
     {
         // find where the statement is printing the sql statment when udpating
+        Double Cost = 0.00;
         if(confirm.toLowerCase() == "y")
         {
             for (String i : ListOfChangesQuery)
             {
                 MysqlStatement.SQLInsert(i);
             }
+
+            for (String i : ListOfChanges)
+            {
+                if (i.contains("Transaction"))
+                {
+                    Cost = Cost +  Double.parseDouble(i.substring(i.lastIndexOf("="), i.length()));
+                }
+                else if (i.contains("Income")) {
+                    Cost = Cost -  Double.parseDouble(i.substring(i.lastIndexOf("="), i.length()));
+                } 
+            }
+
+            MysqlStatement.SQLInsert(String.format("UPDATE Bankoverview set balance = \"%2d\" Where name = \"%s\" ", Cost, BankName));
 
             System.out.println("All updated");
         }

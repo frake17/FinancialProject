@@ -36,11 +36,6 @@ public class BankOverview implements Serializable{
 
     }
 
-    private void setBalance(BigDecimal Balance)
-    {
-        this.Balance = Balance;
-    }
-
     public void viewDetails()
     {
         System.out.println("Bank Name: " + BankName + "Bank Balance: " + Balance);
@@ -116,7 +111,7 @@ public class BankOverview implements Serializable{
         }
     }
 
-    public String createTransaction(String Name) // Create query string and return 
+    public Transaction createTransaction(String Name) // Create query string and return 
     {
         String Month;
         String Year;
@@ -158,7 +153,7 @@ public class BankOverview implements Serializable{
             TempList.add(NewTransaction);
         }
         ListOfTransaction.put(Key.toUpperCase(), TempList);
-        setBalance(Balance.subtract(Cost));
+        //setBalance(Balance.subtract(Cost));
 
         // Insert SQL
         //MysqlStatement.SQLInsert("INSERT INTO Transaction (Category, Date, Cost, Name) VALUES (Category, Key, Cost, Name);");
@@ -166,10 +161,12 @@ public class BankOverview implements Serializable{
         ListOfTransactionID.add(NewTransaction.getUID());
         UpdateID(ListOfTransactionID, "T");
 
-        return String.format("INSERT INTO Transaction (Category, Date, Cost, Name, UID, BankName) VALUES (\"%s\", \"%s\", %.2f, \"%s\", \"%s\", \"%s\");", Category, Transactiondate, Cost, Name, UID, BankName);
+        return NewTransaction;
+
+        //return String.format("INSERT INTO Transaction (Category, Date, Cost, Name, UID, BankName) VALUES (\"%s\", \"%s\", %.2f, \"%s\", \"%s\", \"%s\");", Category, Transactiondate, Cost, Name, UID, BankName);
     }
 
-    public String createIncome(String name){
+    public Income createIncome(String name){
         String Month;
         String Year;
         String Key;
@@ -210,7 +207,7 @@ public class BankOverview implements Serializable{
              TempList.add(NewIncome);
          }
          ListOfIncome.put(Key.toUpperCase(), TempList);
-         setBalance(Balance.subtract(Cost));
+         //setBalance(Balance.subtract(Cost));
  
          // Insert SQL
          //MysqlStatement.SQLInsert("INSERT INTO Transaction (Category, Date, Cost, Name) VALUES (Category, Key, Cost, Name);");
@@ -218,7 +215,9 @@ public class BankOverview implements Serializable{
          ListOfIncomeID.add(NewIncome.getUID());
          UpdateID(ListOfIncomeID, "I");
 
-         return String.format("INSERT INTO Income (Category, Date, Cost, Name, UID, BankName) VALUES (\"%s\", \"%s\", %.2f, \"%s\", \"%s\", \"%s\");", Category, Incomedate, Cost, name, UID, BankName);
+         return NewIncome;
+
+         //return String.format("INSERT INTO Income (Category, Date, Cost, Name, UID, BankName) VALUES (\"%s\", \"%s\", %.2f, \"%s\", \"%s\", \"%s\");", Category, Incomedate, Cost, name, UID, BankName);
     }
 
     public void UpdateID(List<String> ListOfID, String category)

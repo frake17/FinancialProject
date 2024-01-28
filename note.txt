@@ -35,7 +35,7 @@ Add method in transaction to select randomized unique code + T for transaction a
 
 Change SQL UID to string (to test)
 
-Add method in bank class to update balance after confirm update
+make it so when you remove income/transaction before update it wouldnt be upated in bank balance ( to heavly test )
 
 Add income method in bank
 
