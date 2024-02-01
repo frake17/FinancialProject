@@ -78,7 +78,6 @@ public class Main {
                     Transaction newTransaction = Bank.createTransaction(Name);
                     ListOfChanges.add(String.format("Transaction named \"%s\" for Bank \"%s\" costed = \"%2d\" ", Name, BankName, newTransaction.getCost()));
                     ListOfChangesQuery.add(String.format("INSERT INTO Transaction (Category, Date, Cost, Name, UID, BankName) VALUES (\"%s\", \"%s\", %.2f, \"%s\", \"%s\", \"%s\");", newTransaction.getCategory(), newTransaction.getDate(), newTransaction.getCategory(), Name, newTransaction.getUID(), BankName));
-                    //ListOfChangesQuery.add(Bank.createTransaction(Name));
                     break;
 
                 case "3":
@@ -116,7 +115,6 @@ public class Main {
                     Income newIncome = Bank.createIncome(Name);
                     ListOfChanges.add(String.format("Income named \"%s\" for Bank \"%s\" for = \"%2d\" ", Name, BankName, newIncome.getCost()));
                     ListOfChangesQuery.add(String.format("INSERT INTO Income (Category, Date, Cost, Name, UID, BankName) VALUES (\"%s\", \"%s\", %.2f, \"%s\", \"%s\", \"%s\");", newIncome.getCategory(), newIncome.getDate(), newIncome.getCost(), Name, newIncome.getUID(), BankName));
-                    //ListOfChangesQuery.add(Bank.createIncome(Name));
                     break;
                 case "11":
                     Bank.ViewAllIncome();
@@ -167,7 +165,6 @@ public class Main {
 
     public static void UpdateSQL(List<String> ListOfChanges, List<String> ListOfChangesQuery, String confirm, String BankName) // find a way to revert specific changes
     {
-        // find where the statement is printing the sql statment when udpating
         Double Cost = 0.00;
         if(confirm.toLowerCase() == "y")
         {

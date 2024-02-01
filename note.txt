@@ -37,14 +37,14 @@ Change SQL UID to string (to test)
 
 make it so when you remove income/transaction before update it wouldnt be upated in bank balance ( to heavly test )
 
-Add income method in bank
+Add income method in bank ( to test )
 
 comment methods 
-
-Decide how to link transactions and sql
 
 make it so when open the default bank will be selected first instead of first one
 
 Delete indivual transaction and bank account
 
 Test if "SQLInsert" can be used for CUD (Create is possible\ Update\ Delete)
+
+Decide how to link transactions and sql

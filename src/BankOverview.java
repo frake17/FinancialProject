@@ -111,7 +111,7 @@ public class BankOverview implements Serializable{
         }
     }
 
-    public Transaction createTransaction(String Name) // Create query string and return 
+    public Transaction createTransaction(String Name) // balance updated at the end
     {
         String Month;
         String Year;
@@ -153,20 +153,15 @@ public class BankOverview implements Serializable{
             TempList.add(NewTransaction);
         }
         ListOfTransaction.put(Key.toUpperCase(), TempList);
-        //setBalance(Balance.subtract(Cost));
-
-        // Insert SQL
-        //MysqlStatement.SQLInsert("INSERT INTO Transaction (Category, Date, Cost, Name) VALUES (Category, Key, Cost, Name);");
 
         ListOfTransactionID.add(NewTransaction.getUID());
         UpdateID(ListOfTransactionID, "T");
 
         return NewTransaction;
 
-        //return String.format("INSERT INTO Transaction (Category, Date, Cost, Name, UID, BankName) VALUES (\"%s\", \"%s\", %.2f, \"%s\", \"%s\", \"%s\");", Category, Transactiondate, Cost, Name, UID, BankName);
     }
 
-    public Income createIncome(String name){
+    public Income createIncome(String name){ // Balance updated at the end
         String Month;
         String Year;
         String Key;
@@ -207,18 +202,14 @@ public class BankOverview implements Serializable{
              TempList.add(NewIncome);
          }
          ListOfIncome.put(Key.toUpperCase(), TempList);
-         //setBalance(Balance.subtract(Cost));
- 
-         // Insert SQL
-         //MysqlStatement.SQLInsert("INSERT INTO Transaction (Category, Date, Cost, Name) VALUES (Category, Key, Cost, Name);");
+        
  
          ListOfIncomeID.add(NewIncome.getUID());
          UpdateID(ListOfIncomeID, "I");
 
          return NewIncome;
 
-         //return String.format("INSERT INTO Income (Category, Date, Cost, Name, UID, BankName) VALUES (\"%s\", \"%s\", %.2f, \"%s\", \"%s\", \"%s\");", Category, Incomedate, Cost, name, UID, BankName);
-    }
+        }
 
     public void UpdateID(List<String> ListOfID, String category)
     {
