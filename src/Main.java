@@ -5,6 +5,7 @@ import java.rmi.server.UID;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.UUID;
 import java.io.IOException;
 
 // SQL \ root \ 100carbook
@@ -89,7 +90,7 @@ public class Main {
                     break;
                 
                 case "5":
-                    generatedString = random.ints(leftLimit, rightLimit + 1).filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97)).limit(targetStringLength).collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
+                    generatedString = UUID.randomUUID().toString().replace("-", "");
                     AddBank(ListOfChangesQuery, ListOfChangesQuery, generatedString);
                     break;
 
