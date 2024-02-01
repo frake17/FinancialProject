@@ -47,7 +47,7 @@ public class Main {
         ListOfChanges.add(BankName + " will be added");
     
         /* See if can change to UID generator used in transaction */
-        generatedString = random.ints(leftLimit, rightLimit + 1).filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97)).limit(targetStringLength).collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
+        generatedString = UUID.randomUUID().toString().replace("-", "");
         ListOfChangesQuery.add(String.format("Insert into bankoverview(Balance, BankName, UID) values (%.2f, + \"%s\", \"%s\")", Balance, BankName, generatedString));
         ListOfChangesQuery.add(String.format("Update bankoverview set DefaultBank = \"True\" Where UID = \"%s\" ", generatedString));
 
