@@ -24,30 +24,24 @@ public class Main {
         List<String> ListOfChangesQuery = new ArrayList<String>(); // For query for changes
         List<String> Bankdetails = new ArrayList<String>();
 
-        // For creating random alphanumeric string
-        Random random = new Random();
-        int leftLimit = 48; // numeral '0'
-        int rightLimit = 122; // letter 'z'
-        int targetStringLength = 10;
         String generatedString;
        
         // Condition to either select first bank unless its empty in which one will be created
         Bankdetails = MysqlStatement.SQLView("Select Balance, BankName, UID From bankoverview where DefaultBank = \"True\" ");
         Reader = new Scanner(System.in);
 
-        if (Bankdetails.isEmpty()) // condition to prevent empty inputs + auto default bank
+        if (Bankdetails.isEmpty()) // condition to prevent empty inputs + auto default bank // Needs to loop thru Bankdetails!!
         {
+        generatedString = UUID.randomUUID().toString().replace("-", "");
         System.out.println("What is your bank name?");
         BankName = Reader.nextLine();
 
         System.out.println("What is your current balance?");
         Balance = new BigDecimal(Reader.nextLine());
 
-        Bank = new BankOverview(Balance, BankName, random.toString());
+        Bank = new BankOverview(Balance, BankName, UUID.randomUUID().toString().replace("-", ""));
         ListOfChanges.add(BankName + " will be added");
     
-        /* See if can change to UID generator used in transaction */
-        generatedString = UUID.randomUUID().toString().replace("-", "");
         ListOfChangesQuery.add(String.format("Insert into bankoverview(Balance, BankName, UID) values (%.2f, + \"%s\", \"%s\")", Balance, BankName, generatedString));
         ListOfChangesQuery.add(String.format("Update bankoverview set DefaultBank = \"True\" Where UID = \"%s\" ", generatedString));
 
@@ -64,7 +58,7 @@ public class Main {
         /*Do a delete but for specific bank or transaction*/
         while (true)
         {
-            System.out.println("Please choose the following" + System.lineSeparator() + "1.View current account details" + System.lineSeparator() + "2.Add transaction" + System.lineSeparator() + "3.View transaction" + System.lineSeparator() +"4.View ALL transaction" + System.lineSeparator() + "5.Add a new bank account" + System.lineSeparator() + "6.Clear all data" + System.lineSeparator() + "7.Change Bank" + System.lineSeparator() + "8.Update all changes" + System.lineSeparator() + "9.View/Delete pending changes" + System.lineSeparator() + "10.Add income" + System.lineSeparator() + "11.View Income" + System.lineSeparator() + "12.VIew All Income" + System.lineSeparator() +"13.Exit program");
+            System.out.println("Please choose the following" + System.lineSeparator() + "1.View current account details" + System.lineSeparator() + "2.Add transaction" + System.lineSeparator() + "3.View transaction" + System.lineSeparator() +"4.View ALL transaction" + System.lineSeparator() + "5.Add a new bank account" + System.lineSeparator() + "6.Clear all data" + System.lineSeparator() + "7.Change Bank" + System.lineSeparator() + "8.Update all changes" + System.lineSeparator() + "9.View/Delete pending changes" + System.lineSeparator() + "10.Add income" + System.lineSeparator() + "11.View Income" + System.lineSeparator() + "12.View All Income" + System.lineSeparator() + "13. Delete Bank" + System.lineSeparator() +"14.Exit program");
             Choice = Reader.nextLine();
             switch(Choice)
             {
@@ -123,6 +117,15 @@ public class Main {
                     Bank.viewIncome();
                     break;
                 case "13":
+                List<String> DeleteBankList = MysqlStatement.SQLView("Select * From bankoverview");
+                for (String string : DeleteBankList) {
+                    System.out.println(string);
+                }
+                System.out.println("Please enter the name of the bank you want to delete");
+                Name = Reader.nextLine();
+                DeleteBank(Name);
+                    break;
+                case "14":
                     break;
                 default:
                     System.out.println("Invalid choice");
@@ -133,6 +136,22 @@ public class Main {
                 break;
             }
         }
+    }
+
+    public static void DeleteBank(String BankName)
+    {
+        MysqlStatement.SQLInsert(String.format("DELETE FROM bankoverview WHERE bankname = \"%s\" ", BankName));
+        System.out.println(BankName + " has been deleted.");
+
+        System.out.println("Enter stop once done deleted the needed update");
+        Scanner Reader = new Scanner(System.in);
+        // do invalidation
+        if (Reader.nextLine().toLowerCase() != "stop"){
+            System.out.println("Enter the bank name that you wish to edit");
+            BankName = Reader.nextLine();
+            DeleteBank(BankName);
+        }
+        Reader.close();
     }
 
     public static void AddBank (List<String> ListOfChangesQuery, List<String> ListOfChanges, String UID) // Add bank without changing the default
