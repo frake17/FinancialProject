@@ -21,15 +21,15 @@ Update sql method (Done)
 
 only after confirm changes will it update SQL (Done)
 
-way to reverse SQL changes before confirm aka delete changes ( to test )
+way to reverse SQL changes before confirm aka delete changes ( to test (step 9) ) (test this)
 
-Make function for create income (to test )
+Make function for create income (Done )
 
-Initlizate list of transaction/income ID at the start ( to test )
+Initlizate list of transaction/income ID at the start ( to test ) (test this)
 
 Update list of transaction/income ID in bankoverview database (to test)
 
-Add view income (to test)
+Add view income (to test) (test this)
 
 Add method in transaction to select randomized unique code + T for transaction at the front or I (to test)
 
@@ -41,14 +41,15 @@ Add income method in bank ( to test )
 
 make it so when open the default bank will be selected first instead of first one ( to test )
 
-Delete indivual bank account
+Delete indivual bank account (to test)
 	- Add view statemtn to show list of banks to delete from
 
-Delete update
+Delete update (to test)
 	- Add view statement to show list of updates
 
-Delete income / transaction
+Delete income / transaction (to test)
 
+rearrange option list to make more sense
 
 Test if "SQLInsert" can be used for CUD (Create is possible\ Update\ Delete)
 

@@ -31,8 +31,8 @@ public class BankOverview implements Serializable{
         this.BankName = BankName;
         this.UID = UID;
         /* intilize list of income and list of transaction */
-        ListOfIncomeID = MysqlStatement.SQLView("Select (ListOfIncome) FROM Bankoverview WHERE UID = " + UID);
-        ListOfTransactionID = MysqlStatement.SQLView("Select (ListofTransaction) FROM Bankoverview WHERE UID = " + UID);
+        ListOfIncomeID = MysqlStatement.SQLView(String.format("Select (ListOfIncome) FROM Bankoverview WHERE UID = \"%s\" ", UID));
+        ListOfTransactionID = MysqlStatement.SQLView(String.format("Select (ListofTransaction) FROM Bankoverview WHERE UID = \"%s\"  ", UID));
 
     }
 
@@ -57,6 +57,26 @@ public class BankOverview implements Serializable{
         {
             MysqlStatement.SQLView("Select * FROM transaction WHERE UID = " + UID);
         }
+        System.out.println("Enter yes to delete any updates");
+        if (Reader.nextLine().toLowerCase() == "yes"){
+            System.out.println("Please enter the UID of the Transaction you want to delete");
+            UID = Reader.nextLine();
+            DeleteTransaction(UID);;
+        }
+    }
+
+    public void DeleteTransaction(String UID)
+    {
+        MysqlStatement.SQLInsert(String.format("Delete From transaction Where UID = \"%s\" ", UID));
+        ListOfTransactionID.remove(UID);
+        MysqlStatement.SQLInsert(String.format("Update BankOverview Set ListofTransactionID = \"%s\" Where UID = \"%s\" ", ListOfTransactionID, getUID()));
+        System.out.println("Enter stop once done deleted the needed update");
+        if (Reader.nextLine().toLowerCase() != "stop"){
+            System.out.println("Please enter the UID of the Transaction you want to delete");
+            UID = Reader.nextLine();
+            DeleteTransaction(UID);
+        }
+        Reader.close();
     }
 
     public void ViewAllIncome()
@@ -65,6 +85,26 @@ public class BankOverview implements Serializable{
         {
             MysqlStatement.SQLView("Select * FROM income WHERE UID = " + UID);
         }
+        System.out.println("Enter yes to delete any updates");
+        if (Reader.nextLine().toLowerCase() == "yes"){
+            System.out.println("Please enter the UID of the Income you want to delete");
+            UID = Reader.nextLine();
+            DeleteIncome(UID);
+        }
+    }
+
+    public void DeleteIncome(String UID)
+    {
+        MysqlStatement.SQLInsert(String.format("Delete From Income Where UID = \"%s\" ", UID));
+        ListOfIncomeID.remove(UID);
+        MysqlStatement.SQLInsert(String.format("Update BankOverview Set ListofIncomeID = \"%s\" Where UID = \"%s\" ", ListOfIncomeID, getUID()));
+        System.out.println("Enter stop once done deleted the needed update");
+        if (Reader.nextLine().toLowerCase() != "stop"){
+            System.out.println("Please enter the UID of the Income you want to delete");
+            UID = Reader.nextLine();
+            DeleteIncome(UID);
+        }
+        Reader.close();
     }
 
     public void viewTransaction() // Monthly transaction
