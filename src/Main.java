@@ -68,7 +68,7 @@ public class Main {
                     String Name = Reader.nextLine();
                     Transaction newTransaction = Bank.createTransaction(Name);
                     ListOfChanges.add(String.format("Transaction named \"%s\" for Bank \"%s\" costed = \"%.2f\" ", Name, BankName, newTransaction.getCost()));
-                    ListOfChangesQuery.add(String.format("INSERT INTO Transaction (Category, Date, Cost, Name, UID, BankName) VALUES (\"%s\", \"%s\", %.2f, \"%s\", \"%s\", \"%s\");", newTransaction.getCategory(), newTransaction.getDate().toString(), newTransaction.getCost(), newTransaction.getCategory(), Name, newTransaction.getUID(), BankName));
+                    ListOfChangesQuery.add(String.format("INSERT INTO Transaction (Category, Date, Cost, Name, UID, BankName) VALUES (\"%s\", \"%s\", %.2f, \"%s\", \"%s\", \"%s\");", newTransaction.getCategory(), newTransaction.getDate().toString(), newTransaction.getCost(), Name, newTransaction.getUID(), BankName));
                     break;
 
                 case "3":
