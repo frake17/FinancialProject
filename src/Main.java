@@ -201,10 +201,10 @@ public class Main {
             {
                 if (i.contains("Transaction"))
                 {
-                    Cost = Cost +  Double.parseDouble(i.substring(i.lastIndexOf("=")+3, i.length()-2));
+                    Cost = Cost -  Double.parseDouble(i.substring(i.lastIndexOf("=")+3, i.length()-2));
                 }
                 else if (i.contains("Income")) {
-                    Cost = Cost -  Double.parseDouble(i.substring(i.lastIndexOf("=")+3, i.length()-2));
+                    Cost = Cost +  Double.parseDouble(i.substring(i.lastIndexOf("=")+3, i.length()-2));
                 } 
             }
 
