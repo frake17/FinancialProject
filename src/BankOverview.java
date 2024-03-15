@@ -221,7 +221,7 @@ public class BankOverview implements Serializable{
         Cost = new BigDecimal(Reader.nextLine());
 
         Reader = new Scanner(System.in);
-        System.out.println("What is the category of the Income(food, work, studies, entertainment, etc)?");
+        System.out.println("What is the category of the Income( work, transfers, grants, etc. )?");
         Category = Reader.nextLine();
 
         NewIncome = new Income(Category, Incomedate, Cost, name);
