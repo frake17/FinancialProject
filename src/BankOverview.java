@@ -195,7 +195,6 @@ public class BankOverview implements Serializable{
         ListOfTransaction.put(Key.toUpperCase(), TempList);
 
         ListOfTransactionID.add(NewTransaction.getUID());
-        UpdateID(ListOfTransactionID, "T");
 
         return NewTransaction;
 
@@ -245,20 +244,14 @@ public class BankOverview implements Serializable{
         
  
          ListOfIncomeID.add(NewIncome.getUID());
-         UpdateID(ListOfIncomeID, "I");
 
          return NewIncome;
 
         }
 
-    public void UpdateID(List<String> ListOfID, String category)
+    public void UpdateID()
     {
-       if (category == "T")
-       {
-        MysqlStatement.SQLInsert(String.format("Update bankoverview set ListOfTransaction = \"%s\" Where bankname = \"%s\" ", ListOfID, category));
-       }
-       else {
-        MysqlStatement.SQLInsert(String.format("Update bankoverview set ListOfIncome = \"%s\" Where bankname = \"%s\" ", ListOfID, category));
-       }
-       }
+        MysqlStatement.SQLInsert(String.format("Update bankoverview set ListOfTransaction = \"%s\" ", ListOfTransactionID));
+        MysqlStatement.SQLInsert(String.format("Update bankoverview set ListOfIncome = \"%s\"", ListOfIncomeID));
+    }
 }

@@ -97,6 +97,7 @@ public class Main {
                     System.out.println("Press 'Y' to confrim update.");
                     String confirm = Reader.nextLine();
                     UpdateSQL(ListOfChanges, ListOfChangesQuery, confirm, BankName);
+                    Bank.UpdateID();
                     break;
                 case "9":
                     ViewPendingUpdate(ListOfChanges, ListOfChangesQuery);
@@ -153,7 +154,6 @@ public class Main {
         System.out.println(BankName + " has been deleted.");
 
         System.out.println("Enter stop once done deleted the needed update");
-        Scanner Reader = new Scanner(System.in);
         // do invalidation
         if (Reader.nextLine().toLowerCase() != "stop"){
             System.out.println("Enter the bank name that you wish to edit");
