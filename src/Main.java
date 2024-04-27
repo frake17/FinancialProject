@@ -55,7 +55,7 @@ public class Main {
         /*Do a delete but for specific bank or transaction*/
         while (true)
         {   
-            System.out.println("Please choose the following" + System.lineSeparator() + "1.View current account details" + System.lineSeparator() + "2.Add transaction" + System.lineSeparator() + "3.View/Delete transaction by month" + System.lineSeparator() +"4.View ALL transaction" + System.lineSeparator() + "5.Add a new bank account" + System.lineSeparator() + "6.Clear all data" + System.lineSeparator() + "7.Change Bank" + System.lineSeparator() + "8.Update all changes" + System.lineSeparator() + "9.View/Delete pending changes" + System.lineSeparator() + "10.Add income" + System.lineSeparator() + "11.View Income by month" + System.lineSeparator() + "12.View/Delete All Income" + System.lineSeparator() + "13. View/Delete Bank" + System.lineSeparator() +"14.Exit program");
+            System.out.println("Please choose the following" + System.lineSeparator() + "1.View current account details" + System.lineSeparator() + "2.Add transaction" + System.lineSeparator() + "3.View/Delete transaction by month" + System.lineSeparator() +"4.View ALL transaction" + System.lineSeparator() + "5.Add a new bank account" + System.lineSeparator() + "6.Clear all data" + System.lineSeparator() + "7.Change Bank" + System.lineSeparator() + "8.Update all changes" + System.lineSeparator() + "9.View/Delete pending changes" + System.lineSeparator() + "10.Add income" + System.lineSeparator() + "11.View Income by month" + System.lineSeparator() + "12.View/Delete All Income" + System.lineSeparator() + "13.View/Delete Bank" + System.lineSeparator() +"14.Exit program");
             Choice = Reader.nextLine();
             switch(Choice)
             {
@@ -110,10 +110,10 @@ public class Main {
                     ListOfChangesQuery.add(String.format("INSERT INTO Income (Category, Date, Cost, Name, UID, BankName) VALUES (\"%s\", \"%s\", %.2f, \"%s\", \"%s\", \"%s\");", newIncome.getCategory(), newIncome.getDate(), newIncome.getCost(), Name, newIncome.getUID(), BankName));
                     break;
                 case "11":
-                    Bank.ViewAllIncome();
+                    Bank.viewIncome();
                     break;
                 case "12":
-                    Bank.viewIncome();
+                    Bank.ViewAllIncome();
                     break;
                 case "13":
                     viewbank();
@@ -135,13 +135,13 @@ public class Main {
 
     public static void viewbank(){
         String Name;
-        List<String> DeleteBankList = MysqlStatement.SQLView("Select * From bankoverview");
+        List<String> DeleteBankList = MysqlStatement.SQLView("Select BankName From bankoverview");
         for (String string : DeleteBankList) {
             System.out.println(string);
         }
 
-        System.out.println("Enter yes to delete any updates");
-        if (Reader.nextLine().toLowerCase() == "yes"){
+        System.out.println("Enter yes if you wish to delete bank/s");
+        if (Reader.nextLine().toLowerCase().equals("yes")){
             System.out.println("Please enter the name of the bank you want to delete");
             Name = Reader.nextLine();
             DeleteBank(Name);
@@ -155,7 +155,7 @@ public class Main {
 
         System.out.println("Enter stop once done deleted the needed update");
         // do invalidation
-        if (Reader.nextLine().toLowerCase() != "stop"){
+        if (!Reader.nextLine().toLowerCase().equals("stop")){
             System.out.println("Enter the bank name that you wish to edit");
             BankName = Reader.nextLine();
             DeleteBank(BankName);

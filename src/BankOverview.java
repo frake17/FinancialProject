@@ -22,7 +22,7 @@ public class BankOverview implements Serializable{
     private List<String> ListOfIncomeID = new ArrayList<String>();
     private HashMap<String, List<Transaction>> ListOfTransaction = new HashMap<String, List<Transaction>>();
     private List<String> ListOfTransactionID = new ArrayList<String>();
-    Scanner Reader;
+    Scanner Reader = new Scanner(System.in);
     private String UID;
 
     public BankOverview(BigDecimal Balance, String BankName, String UID)
@@ -55,7 +55,7 @@ public class BankOverview implements Serializable{
     {
         for (String UID : ListOfTransactionID)
         {
-            MysqlStatement.SQLView("Select * FROM transaction WHERE UID = " + UID);
+            System.out.println(MysqlStatement.SQLView(String.format("Select * FROM transaction WHERE UID = \"%s\" ", UID.replaceAll("[()\\[\\]]", ""))));
         }
         System.out.println("Enter yes to delete any updates");
         if (Reader.nextLine().toLowerCase() == "yes"){
@@ -83,7 +83,7 @@ public class BankOverview implements Serializable{
     {
         for (String UID : ListOfIncomeID)
         {
-            MysqlStatement.SQLView("Select * FROM income WHERE UID = " + UID);
+            System.out.println(MysqlStatement.SQLView(String.format("Select * FROM income WHERE UID =  \"%s\" ",UID.replaceAll("[()\\[\\]]", ""))));
         }
         System.out.println("Enter yes to delete any updates");
         if (Reader.nextLine().toLowerCase() == "yes"){
